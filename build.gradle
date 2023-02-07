@@ -1,0 +1,61 @@
+buildscript {
+	ext {
+		springBootVersion = '2.6.1'
+		javaVersion = 11
+	}
+}
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version "${springBootVersion}"
+}
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = "${javaVersion}"
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+	maven { url "https://repo.maven.apache.org/maven2" }
+}
+
+
+dependencies {
+	implementation platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+	implementation platform('org.springframework.cloud:spring-cloud-dependencies:2021.0.0')
+	implementation platform('com.google.cloud:libraries-bom:25.4.0')
+	implementation platform('com.google.cloud:spring-cloud-gcp-dependencies:3.3.0')
+
+	// CLOUD SPANNER
+	implementation 'com.google.cloud:spring-cloud-gcp-starter-data-spanner'
+
+
+	// Model Mapper
+	implementation 'org.modelmapper:modelmapper:3.0.0'
+
+	// SPRING BOOT
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+
+
+
+	implementation 'com.google.cloud:spring-cloud-gcp-starter-secretmanager'
+
+	// UTILITIES
+	compileOnly 'org.projectlombok:lombok:1.18.24'
+	annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+}
+
+//dependencyManagement {
+//	imports {
+//		mavenBom "com.google.cloud:spring-cloud-gcp-dependencies:${springCloudGcpVersion}"
+//		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+//	}
+//}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
